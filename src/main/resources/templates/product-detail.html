@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<head>
+    <title>제품 상세 페이지</title>
+</head>
+<body>
+    <h1 th:text="${product.productName}"></h1>
+    <img th:src="@{/${product.productImageUrl}(encode='UTF-8')}" alt="제품 이미지" />
+    <p th:text="${product.description}"></p>
+    <p>가격: <span th:text="${product.price}"></span></p>
+    <form th:action="@{/commerce/purchase}" method="post">
+        <input type="hidden" name="productId" th:value="${product.id}">
+        <button type="submit">구매하기</button>
+    </form>
+</body>
+</html>
