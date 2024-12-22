@@ -16,3 +16,7 @@ spring:
 server:
   port: 8080
 
+iamport:
+  key: ${IAMPORT_KEY}
+  secret: ${IAMPORT_SECRET}
+
