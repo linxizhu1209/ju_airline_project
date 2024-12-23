@@ -7,11 +7,13 @@ import org.example.paymenttest.entity.Product;
 import org.example.paymenttest.service.OrderService;
 import org.example.paymenttest.service.PaymentService;
 import org.example.paymenttest.service.ProductService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -30,26 +32,30 @@ public class PaymentController {
     }
 
     @PostMapping("/order")
-    public String saveOrder(@RequestParam Map<String,String> paymentData){
+    public ResponseEntity<Map<String, String>> saveOrder(@RequestBody Map<String,String> paymentData){
         boolean paymentSuccess = paymentData.get("status").equals("SUCCESS");
 
+        Map<String, String> response = new HashMap<>();
+
         if(paymentSuccess){
-            Long productId = Long.parseLong(paymentData.get("productId"));
+            Long productId = Long.parseLong((String) paymentData.get("productId"));
             Product product = productService.findProductById(productId);
             orderService.saveOrder(product, paymentData);
-            return "redirect:/commerce/purchase/success";
+            response.put("redirectUrl", "/commerce/payment/success");
         } else {
-            return "redirect:/commerce/purchase/failure";
+            response.put("redirectUrl", "/commerce/payment/failure");
         }
+
+        return ResponseEntity.ok(response);
     }
 //
-//    @GetMapping("/success")
-//    public String purchaseSuccess(){
-//        return "order-complete";
-//    }
-//    @GetMapping("/failure")
-//    public String purchaseFailure(){
-//        return "order-failure";
-//    }
+    @GetMapping("/success")
+    public String purchaseSuccess(){
+        return "order-complete";
+    }
+    @GetMapping("/failure")
+    public String purchaseFailure(){
+        return "order-failure";
+    }
 
 }

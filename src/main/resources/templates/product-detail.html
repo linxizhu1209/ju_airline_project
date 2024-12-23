@@ -27,7 +27,6 @@
         var order = {
             productId: product.id,
             amount: product.price,
-            // status랑 created_at, product_id는 서버에서 하면 됨
         };
 
         IMP.init(impCode);
@@ -50,14 +49,23 @@
                     if(product.price == data.response.amount){
                         order.payment_id = rsp.merchant_uid;
                         order.imp_uid = rsp.imp_uid;
+                        order.status = "SUCCESS";
                         $.ajax({
                             url: "/commerce/payment/order",
                             method: 'post',
                             data: JSON.stringify(order),
                             contentType: "application/json"
-                        }).then(function (res){
-
-                        })
+                        }).then(function (response) {
+                            // 서버에서 전달된 리다이렉트 URL로 이동
+                            if (response.redirectUrl) {
+                                window.location.href = response.redirectUrl;
+                            } else {
+                                alert("리다이렉션 URL이 제공되지 않았습니다.");
+                            }
+                        }).catch(function (err) {
+                            console.error("에러 발생:", err);
+                            alert("주문 처리 중 에러가 발생했습니다.");
+                        });
                     }
                 })
             } else {
