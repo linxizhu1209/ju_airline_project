@@ -41,6 +41,9 @@ dependencies {
  	// 포트원(아임포트)
 	implementation group: 'com.github.iamport', name: 'iamport-rest-client-java', version: '0.2.22'
 
+	// oauth
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
 }
 
 tasks.named('test') {

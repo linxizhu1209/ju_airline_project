@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/payment-service?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/payment-service?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: root
     password: 12341234
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -13,8 +13,10 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
+  profiles:
+    include: oauth
 server:
-  port: 8080
+  port: 8081
 
 iamport:
   key: ${IAMPORT_KEY}
