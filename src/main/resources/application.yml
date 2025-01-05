@@ -6,6 +6,10 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   mvc:
     static-path-pattern: /static/**
+  web:
+    resources:
+      static-locations: classpath:/static/
+
 
   jpa:
     hibernate:
@@ -15,6 +19,16 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
   profiles:
     include: oauth
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  messaging:
+    stomp:
+      relay:
+        host: localhost
+        port: 61613
 server:
   port: 8081
 
@@ -22,3 +36,6 @@ iamport:
   key: ${IAMPORT_KEY}
   secret: ${IAMPORT_SECRET}
 
+logging:
+  level:
+    web: debug

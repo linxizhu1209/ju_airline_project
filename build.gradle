@@ -44,6 +44,14 @@ dependencies {
 	// oauth
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
+	// websocket
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-websocket', version: '3.4.1'
+
+	//rabbitmq
+	implementation group: 'com.rabbitmq', name: 'amqp-client', version: '5.24.0'
+
+	// netty
+	implementation 'io.projectreactor.netty:reactor-netty:1.1.8' // Spring Boot 3.4.x와 호환되는 버전
 }
 
 tasks.named('test') {
