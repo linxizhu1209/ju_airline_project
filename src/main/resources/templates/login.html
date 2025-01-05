@@ -15,7 +15,12 @@
     <p>회원이 아니신가요? <a th:href="@{/commerce/signup}"> 회원가입 </a></p>
 
     <p>또는</p>
+    <div>
     <a th:href="@{/oauth2/authorization/google}" style="text-decoration: none;">
         <button type="button">Google로 로그인</button>
     </a>
+    <a th:href="@{/oauth2/authorization/naver}">
+        <img src="https://static.nid.naver.com/oauth/small_g_in.PNG" alt="네이버 로그인" style="width: 120px; height: 25px; padding: 1px 6px"/>
+    </a>
+    </div>
 </body>
