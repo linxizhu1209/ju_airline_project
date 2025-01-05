@@ -13,4 +13,9 @@
         <button type="submit">로그인</button>
     </form>
     <p>회원이 아니신가요? <a th:href="@{/commerce/signup}"> 회원가입 </a></p>
+
+    <p>또는</p>
+    <a th:href="@{/oauth2/authorization/google}" style="text-decoration: none;">
+        <button type="button">Google로 로그인</button>
+    </a>
 </body>

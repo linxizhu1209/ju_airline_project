@@ -14,15 +14,15 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//       http.authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
        http
                        .authorizeHttpRequests(auth -> auth
-                               .requestMatchers("/","/commerce/user/login","oauth2/**").permitAll()
+                               .requestMatchers("/","/commerce/user/login","/oauth2/**", "/commerce/home").permitAll()
+                               .requestMatchers("/commerce/product/**", "/commerce/payment/**").authenticated()
                                .anyRequest().authenticated()
                        )
                                .oauth2Login(oauth2 -> oauth2
                                        .loginPage("/commerce/user/login")
-                                       .defaultSuccessUrl("/commerce/product",true)
+                                       .defaultSuccessUrl("/commerce/home",true)
                                        .failureUrl("/commerce/user/login?error=true")
                                        .userInfoEndpoint(userInfo -> userInfo
                                                .userService(customOAuth2UserService())

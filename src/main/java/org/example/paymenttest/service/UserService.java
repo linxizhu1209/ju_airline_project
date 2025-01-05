@@ -23,4 +23,12 @@ public class UserService {
             return false;
         }
     }
+
+    public void saveUser(String email, String name) {
+        boolean isExistUser = userRepository.existsByEmail(email);
+        if(!isExistUser){
+            User user = User.builder().email(email).username(name).build();
+            userRepository.save(user);
+        }
+    }
 }
