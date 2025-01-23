@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:latest
+    container_name: my-mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: airline
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 12341234
+    volumes:
+      - db_data:/var/lib/mysql
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"   # 메시지 브로커 포트
+      - "15672:15672" # 관리 UI 포트
+      - "61613:61613" # STOMP 포트
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+volumes:
+  db_data:
