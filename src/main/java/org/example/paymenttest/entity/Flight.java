@@ -1,12 +1,14 @@
 package org.example.paymenttest.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@Builder
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table
 public class Flight {
 
