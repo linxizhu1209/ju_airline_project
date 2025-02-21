@@ -3,12 +3,10 @@ package org.example.paymenttest.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.paymenttest.dto.request.FlightSearchRequest;
 import org.example.paymenttest.dto.response.FlightResponse;
+import org.example.paymenttest.dto.response.FlightSearchResponse;
 import org.example.paymenttest.service.FlightService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,8 +18,11 @@ public class FlightController {
     private final FlightService flightService;
 
     @GetMapping("/search")
-    public ResponseEntity<List<FlightResponse>> searchFlights(@RequestBody FlightSearchRequest request) {
-        List<FlightResponse> flights = flightService.searchFlights(request);
+    public ResponseEntity<FlightSearchResponse> searchFlights(
+            @RequestParam String departureAirportId,
+            @RequestParam String arrivalAirportId
+    ) {
+        FlightSearchResponse flights = flightService.searchFlights(departureAirportId,arrivalAirportId);
         return ResponseEntity.ok(flights);
     }
 

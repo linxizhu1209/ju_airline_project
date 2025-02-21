@@ -3,9 +3,10 @@ package org.example.paymenttest.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
-@Builder
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,4 +27,8 @@ public class Flight {
     @ManyToOne
     @JoinColumn(name="arrival_airport_id", nullable = false)
     private Airport arrivalAirport;
+
+    @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<FlightSchedule> flightSchedules;
+
 }

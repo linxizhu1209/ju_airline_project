@@ -5,9 +5,18 @@ import lombok.Getter;
 import lombok.Setter;
 import org.example.paymenttest.entity.Flight;
 
+import java.util.List;
+
 @Builder
 @Getter
 @Setter
-public class FlightResponse extends Flight {
+public class FlightResponse {
 
+    private String flightId;
+    private String airline;
+
+    private AirportResponse departureAirport;
+    private AirportResponse arrivalAirport;
+
+    private List<FlightScheduleResponse> flightScheduleResponse;
 }

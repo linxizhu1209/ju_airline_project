@@ -27,6 +27,11 @@ spring:
         port: 61613
 server:
   port: 8081
+  servlet:
+    encoding:
+      enabled: true
+      charset: UTF-8
+      force: true
 
 iamport:
   key: ${IAMPORT_KEY}
