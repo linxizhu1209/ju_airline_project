@@ -17,8 +17,9 @@ public class Flight {
     @Column(length=10)
     private String flightId;
 
-    @Column(nullable = false, length = 50)
-    private String airline;
+    @ManyToOne
+    @JoinColumn(name= "airline_id",nullable = false)
+    private Airline airline;
 
     @ManyToOne
     @JoinColumn(name="departure_airport_id", nullable = false)

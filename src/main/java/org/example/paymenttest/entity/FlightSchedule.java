@@ -30,5 +30,7 @@ public class FlightSchedule {
     @Column(nullable = false, length = 10)
     private String direction;
 
+    @Column(nullable = false)
+    private double price;
 
 }

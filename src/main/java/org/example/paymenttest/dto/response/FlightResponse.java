@@ -3,6 +3,7 @@ package org.example.paymenttest.dto.response;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.paymenttest.entity.Airline;
 import org.example.paymenttest.entity.Flight;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 public class FlightResponse {
 
     private String flightId;
-    private String airline;
+    private Airline airline;
 
     private AirportResponse departureAirport;
     private AirportResponse arrivalAirport;

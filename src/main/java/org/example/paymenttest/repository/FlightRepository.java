@@ -1,5 +1,6 @@
 package org.example.paymenttest.repository;
 
+import org.example.paymenttest.entity.Airport;
 import org.example.paymenttest.entity.Flight;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,5 +23,8 @@ public interface FlightRepository extends JpaRepository<Flight, String> {
     List<Flight> findFlightsWithSchedule(@Param("departureAirportId") String departureAirportId,
                                          @Param("arrivalAirportId") String arrivalAirportId);
 
-
+    @Query("SELECT DISTINCT f.arrivalAirport from Flight f where f.departureAirport.airportId = :departureAirportId " +
+            "UNION "+
+            "SELECT  DISTINCT f.departureAirport from Flight f where f.arrivalAirport.airportId = :departureAirportId")
+    List<Airport> findDesAirport(String departureAirportId);
 }
