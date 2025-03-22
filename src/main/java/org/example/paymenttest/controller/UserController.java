@@ -1,30 +1,32 @@
 package org.example.paymenttest.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.paymenttest.entity.User;
 import org.example.paymenttest.service.UserService;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+
+import java.util.Map;
 
 @RequiredArgsConstructor
-@Controller
-@RequestMapping("/commerce/user")
+@RestController
+@RequestMapping("/auth")
 public class UserController {
 
     private final UserService userService;
-    @GetMapping("/login")
-    public String loginPage(){
-        return "login";
-    }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute User user){
-        boolean successLogin = userService.login(user);
-        if(successLogin) {
-            return "redirect:/commerce/product";
-        } else return "redirect:/commerce/user/login";
+    public ResponseEntity<?> googleLogin(@RequestBody Map<String, String> request){
+        String idToken = request.get("idToken");
+        if(idToken == null){
+            return ResponseEntity.badRequest().body("Invalid request: No idToken provided");
+        }
+
+        Map<String,Object> loginResponse = userService.loginOrRegisterUser(idToken);
+        if(loginResponse.containsKey("error")){
+            return ResponseEntity.badRequest().body(loginResponse);
+        }
+        return ResponseEntity.ok(loginResponse);
     }
+
 }
