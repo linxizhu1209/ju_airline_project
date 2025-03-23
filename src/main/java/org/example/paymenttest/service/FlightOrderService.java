@@ -27,27 +27,6 @@ public class FlightOrderService {
     public List<FlightOrderResponse> getOrderListByUserEmail(String email) {
         User user = userRepository.findByEmail(email).orElse(null);
         List<FlightOrder> flightOrder = flightOrderRepository.findFlightOrderListByUserId(user.getId());
-        /**
-         * {
-         *         "flightOrderId": 1,
-         *         "tossOrderId": "TOSS12345",
-         *         "quantity": 2,
-         *         "totalPrice": 150000.0,
-         *         "orderStatus": "PENDING",
-         *         "user": {
-         *             "userId": 101,
-         *             "email": "test@domain.com",
-         *             "name": "홍길동"
-         *         },
-         *         "flightSchedule": {
-         *             "flightScheduledId": 50,
-         *             "departure": "ICN",
-         *             "destination": "JFK",
-         *             "flightDate": "2025-04-01",
-         *             "airline": "Korean Air"
-         *         }
-         *     }
-         */
         return flightOrder.stream()
                 .map(flightOrderMapper::toFlightOrderResponse)
                 .toList();
