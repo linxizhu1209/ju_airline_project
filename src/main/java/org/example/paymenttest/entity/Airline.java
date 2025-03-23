@@ -19,7 +19,7 @@ public class Airline {
     private Long airlineId;
 
     @Column(nullable = false, unique = true, length = 100)
-    private String airlineName;
+    private String name;
 
     @Column(nullable = false, length = 255)
     private String imageUrl; // 항공사 로고 이미지 URL

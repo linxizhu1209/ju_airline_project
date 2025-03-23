@@ -27,7 +27,7 @@ public class FlightScheduleResponse {
 
     public FlightScheduleResponse(FlightSchedule schedule) {
         this.scheduleId = schedule.getScheduleId();
-        this.airlineName = schedule.getFlight().getAirline().getAirlineName();
+        this.airlineName = schedule.getFlight().getAirline().getName();
         this.airlineLogo = schedule.getFlight().getAirline().getImageUrl();
         this.departureAirport = schedule.getFlight().getDepartureAirport().getCity();
         this.arrivalAirport = schedule.getFlight().getArrivalAirport().getCity();

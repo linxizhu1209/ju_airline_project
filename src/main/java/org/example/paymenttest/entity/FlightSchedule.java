@@ -1,5 +1,6 @@
 package org.example.paymenttest.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +20,7 @@ public class FlightSchedule {
 
     @ManyToOne
     @JoinColumn(name="flight_id", nullable = false)
+    @JsonBackReference
     private Flight flight;
 
     @Column(nullable = false)
