@@ -38,10 +38,7 @@ dependencies {
 	//thymeleaf
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
-
- 	// 포트원(아임포트)
-	implementation group: 'com.github.iamport', name: 'iamport-rest-client-java', version: '0.2.22'
-
+	
 	// oauth
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
@@ -50,6 +47,7 @@ dependencies {
 
 	//rabbitmq
 	implementation group: 'com.rabbitmq', name: 'amqp-client', version: '5.24.0'
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
 
 	// netty
 	implementation 'io.projectreactor.netty:reactor-netty:1.1.8' // Spring Boot 3.4.x와 호환되는 버전
@@ -58,6 +56,9 @@ dependencies {
 	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 }
 
 tasks.named('test') {

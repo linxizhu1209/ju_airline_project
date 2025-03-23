@@ -1,18 +1,17 @@
 package org.example.paymenttest.entity;
 
 import com.fasterxml.jackson.databind.DatabindException;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ChatMessage {
-
-    private String content;
     private String sender;
-    private Date time;
 
+    private String message;
 
+    private String timestamp;
 }
