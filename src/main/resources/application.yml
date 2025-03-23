@@ -20,6 +20,12 @@ spring:
     port: 5672
     username: guest
     password: guest
+    stream:
+      virtual-host: /
+    listener:
+      simple:
+        concurrency: 3
+        max-concurrency: 10
   messaging:
     stomp:
       relay:
@@ -32,11 +38,6 @@ server:
       enabled: true
       charset: UTF-8
       force: true
-
-iamport:
-  key: ${IAMPORT_KEY}
-  secret: ${IAMPORT_SECRET}
-
 logging:
   level:
     web: debug

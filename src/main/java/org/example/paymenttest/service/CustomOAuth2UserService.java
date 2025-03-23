@@ -31,7 +31,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             name = (String) response.get("name");
         }
 
-        userService.saveUser(email,name);
         return oAuth2User;
     }
 

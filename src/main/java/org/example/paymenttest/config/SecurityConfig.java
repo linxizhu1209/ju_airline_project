@@ -16,14 +16,15 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
        http
                        .authorizeHttpRequests(auth -> auth
-                               .requestMatchers("/","/commerce/user/login","/oauth2/**", "/commerce/home", "/css/**", "/js/**", "/images/**").permitAll()
-                               .requestMatchers("/commerce/product/**", "/commerce/payment/**").authenticated()
+                               .requestMatchers("/","/commerce/user/login","/oauth2/**", "/commerce/home", "/chat/**", "/js/**", "/images/**", "/flight/**", "/airport/**", "/payment/**",
+                                       "/order/**", "/login/**", "/auth/**").permitAll()
+                               .requestMatchers("/chat/admin/**").hasRole("ADMIN")
+                               .requestMatchers("/commerce/product/**").authenticated()
                                .anyRequest().authenticated()
                        )
                                .oauth2Login(oauth2 -> oauth2
-                                       .loginPage("/commerce/user/login")
                                        .defaultSuccessUrl("/commerce/home",true)
-                                       .failureUrl("/commerce/user/login?error=true")
+                                       .failureUrl("/commerce/home?error=true")
                                        .userInfoEndpoint(userInfo -> userInfo
                                                .userService(customOAuth2UserService())
                                        )
