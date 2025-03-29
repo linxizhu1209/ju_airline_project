@@ -29,4 +29,10 @@ public class UserController {
         return ResponseEntity.ok(loginResponse);
     }
 
+    @PostMapping("/login/admin")
+    public ResponseEntity<?> adminLogin(@RequestBody Map<String, String> request){
+        Map<String,Object> loginResponse = userService.login(request.get("email"), request.get("password"));
+        return ResponseEntity.ok(loginResponse);
+    }
+
 }

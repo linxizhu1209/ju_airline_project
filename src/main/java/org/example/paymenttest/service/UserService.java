@@ -52,4 +52,12 @@ public class UserService {
         return loginResponse;
     }
 
+    public Map<String, Object> login(String email, String password) {
+        User user = userRepository.findByEmailAndPassword(email,password).orElseThrow();
+        String jwtToken = jwtUtil.generateToken(user);
+        Map<String,Object> loginResponse = new HashMap<>();
+        loginResponse.put("token", jwtToken);
+        loginResponse.put("user", user);
+        return loginResponse;
+    }
 }
