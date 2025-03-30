@@ -1,5 +1,6 @@
 package org.example.paymenttest.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.DatabindException;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -19,5 +20,6 @@ public class ChatMessage {
     private String id;
     private String sender;
     private String message;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
     private LocalDateTime timestamp;
 }

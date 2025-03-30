@@ -66,6 +66,8 @@ dependencies {
 	implementation 'org.springframework.data:spring-data-mongodb'
 	implementation 'org.springframework.data:spring-data-commons'
 
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
 }
 
 tasks.named('test') {

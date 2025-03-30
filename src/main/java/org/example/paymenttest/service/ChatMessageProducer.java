@@ -2,6 +2,8 @@ package org.example.paymenttest.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.example.paymenttest.config.RabbitMQConfig;
 import org.example.paymenttest.entity.ChatMessage;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -14,7 +16,9 @@ public class ChatMessageProducer {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper()
+            .registerModule(new JavaTimeModule())
+            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
     public void sendMessage(ChatMessage message){
         try{
