@@ -18,6 +18,7 @@ public class ChatMessage {
 
     @Id
     private String id;
+    private String roomId;
     private String sender;
     private String message;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")

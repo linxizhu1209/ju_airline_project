@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/chat")
@@ -24,13 +25,6 @@ public class ChatController {
 
     private final ChatMessageProducer chatMessageProducer;
     private final ChatMessageService chatMessageService;
-
-    @PostMapping("/send")
-    public ResponseEntity<String> sendMessage(@RequestBody ChatMessage chatMessage) {
-        chatMessageProducer.sendMessage(chatMessage);
-        chatMessageService.saveMessage(chatMessage);
-        return ResponseEntity.ok("Message sent successfully");
-    }
 
 
     @GetMapping("/admin/messages/{sender}")
@@ -51,5 +45,17 @@ public class ChatController {
         return ResponseEntity.ok(chatRooms);
     }
 
+
+    @GetMapping("/messages/{roomId}")
+    public ResponseEntity<List<ChatMessage>> getMessages(@PathVariable String roomId) {
+        List<ChatMessage> chatMessages = chatMessageService.getMessagesByRoomId(roomId);
+        return ResponseEntity.ok(chatMessages);
+    }
+
+    @GetMapping("/room/exists/{roomId}")
+    public ResponseEntity<Map<String, Boolean>> roomExists(@PathVariable String roomId) {
+        boolean exists = chatMessageService.existsByRoomId(roomId);
+        return ResponseEntity.ok(Map.of("exists", exists));
+    }
 
 }

@@ -15,16 +15,15 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         config.enableStompBrokerRelay("/topic","/queue")
                 .setRelayHost("localhost") // rabbitmq 서버 주소
                 .setRelayPort(61613)
-                        .setClientLogin("guest")
-                                .setClientPasscode("guest");
+                        .setClientLogin("juju")
+                                .setClientPasscode("juju1209");
         config.setApplicationDestinationPrefixes("/app");
     }
 
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws")
-                .setAllowedOriginPatterns("*")
-                .withSockJS();
+        registry.addEndpoint("/ws-chat")
+                .setAllowedOriginPatterns("*");
     }
 }

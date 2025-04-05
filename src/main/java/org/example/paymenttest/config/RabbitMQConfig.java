@@ -3,11 +3,13 @@ package org.example.paymenttest.config;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 
-
+@Configuration
 public class RabbitMQConfig {
     public static final String CHAT_QUEUE = "chat_queue";
     public static final String CHAT_EXCHANGE = "chat_exchange";
@@ -20,7 +22,7 @@ public class RabbitMQConfig {
 
     @Bean
     public TopicExchange chatExchange(){
-        return new TopicExchange(CHAT_EXCHANGE);
+        return new TopicExchange(CHAT_EXCHANGE, true, false);
     }
 
     @Bean
@@ -35,6 +37,8 @@ public class RabbitMQConfig {
     public AmqpAdmin amqpAdmin(ConnectionFactory connectionFactory) {
         return new RabbitAdmin(connectionFactory);
     }
+
+
 
     @Bean
     public ApplicationRunner runner(AmqpAdmin amqpAdmin) {
