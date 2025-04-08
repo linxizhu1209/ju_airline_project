@@ -23,4 +23,5 @@ public class ChatMessage {
     private String message;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
     private LocalDateTime timestamp;
+    private boolean unread;
 }

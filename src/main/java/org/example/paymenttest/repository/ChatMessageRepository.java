@@ -11,4 +11,7 @@ import java.util.List;
 public interface ChatMessageRepository extends MongoRepository<ChatMessage, String> {
     List<ChatMessage> findBySender(String sender);
     List<ChatMessage> findByRoomIdOrderByTimestampAsc(String roomId);
+
+
+    int countByRoomIdAndSenderNotAndUnreadIsTrue(String roomId, String email);
 }

@@ -88,4 +88,12 @@ public class ChatMessageService {
                 ChatMessage.class
         );
     }
+
+    public int getUnreadCountByEmailAndRole(String email, String role, String roomId) {
+        if ("ADMIN".equalsIgnoreCase(role)) {
+            return chatRoomRepository.countByHasUnreadIsTrue();
+        } else {
+            return chatMessageRepository.countByRoomIdAndSenderNotAndUnreadIsTrue(roomId, email);
+        }
+    }
 }
