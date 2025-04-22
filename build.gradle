@@ -68,6 +68,9 @@ dependencies {
 
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
+	// qr코드
+	implementation("com.google.zxing:core:3.5.3")
+	implementation("com.google.zxing:javase:3.5.3")
 }
 
 tasks.named('test') {

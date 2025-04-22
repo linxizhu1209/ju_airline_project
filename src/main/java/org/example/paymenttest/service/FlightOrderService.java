@@ -69,4 +69,8 @@ public class FlightOrderService {
             flightOrderRepository.save(flightOrder);
         }
     }
+
+    public FlightOrder getFlightOrderById(Long flightOrderId) {
+        return flightOrderRepository.findById(flightOrderId).orElse(null);
+    }
 }
