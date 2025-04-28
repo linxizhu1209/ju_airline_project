@@ -39,7 +39,7 @@ public class FlightOrderController {
         }
 
         try {
-            byte[] qrImageBytes = qrCodeService.generateQRCodeImage(flightOrder.getTossOrderId());
+            byte[] qrImageBytes = qrCodeService.generateSecureQRCodeImage(flightOrder.getTossOrderId());
             String base64Qr = Base64.getEncoder().encodeToString(qrImageBytes);
 
             Map<String, Object> response = Map.of(
