@@ -14,4 +14,6 @@ public interface ChatMessageRepository extends MongoRepository<ChatMessage, Stri
 
 
     int countByRoomIdAndSenderNotAndUnreadIsTrue(String roomId, String email);
+
+    List<ChatMessage> findByRoomId(String roomId);
 }

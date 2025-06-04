@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.parameters.P;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -26,21 +28,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ChatController {
 
-    private final ChatMessageProducer chatMessageProducer;
     private final ChatMessageService chatMessageService;
     private final JwtUtil jwtUtil;
 
-    @GetMapping("/admin/messages/{sender}")
-    public ResponseEntity<List<ChatMessage>> getMessagesBySender(@PathVariable String sender) {
-        List<ChatMessage> messages = chatMessageService.getMessagesBySender(sender);
-        return ResponseEntity.ok(messages);
-    }
-
-    @GetMapping("/admin/messages")
-    public ResponseEntity<List<ChatMessage>> getAllMessages() {
-        List<ChatMessage> messages = chatMessageService.getAllMessages();
-        return ResponseEntity.ok(messages);
-    }
 
     @GetMapping("/admin/chatrooms")
     public ResponseEntity<List<ChatRoomResponse>> getChatRooms(){
@@ -50,8 +40,11 @@ public class ChatController {
 
 
     @GetMapping("/messages/{roomId}")
-    public ResponseEntity<List<ChatMessage>> getMessages(@PathVariable String roomId) {
-        List<ChatMessage> chatMessages = chatMessageService.getMessagesByRoomId(roomId);
+    public ResponseEntity<List<ChatMessage>> getMessages(@PathVariable String roomId, Authentication authentication) {
+        String role = authentication.getAuthorities().stream().findFirst().map(GrantedAuthority::getAuthority).orElse("ROLE_USER");
+        String requester = authentication.getName();
+
+        List<ChatMessage> chatMessages = chatMessageService.markMessagesAsRead(roomId, role, requester);
         return ResponseEntity.ok(chatMessages);
     }
 
@@ -69,6 +62,10 @@ public class ChatController {
         if(authHeader == null || !authHeader.startsWith("Bearer ") ){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+        /**
+         * 1. 관리자는 읽지않은 채팅방의 수 => 채팅방에 unread 필드 필요
+         * 2. 유저는 읽지않은 채팅의 수 => 채팅에 unread 필드 필요
+         */
         System.out.println("📥 [AUTH HEADER] = " + authHeader);
         String token = authHeader.substring(7);
         String email = jwtUtil.extractEmail(token);

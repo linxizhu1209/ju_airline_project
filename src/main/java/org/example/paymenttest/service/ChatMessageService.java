@@ -4,20 +4,18 @@ import lombok.RequiredArgsConstructor;
 import org.example.paymenttest.dto.response.ChatRoomResponse;
 import org.example.paymenttest.entity.ChatMessage;
 import org.example.paymenttest.entity.ChatRoom;
+import org.example.paymenttest.exception.ChatRoomNotFoundException;
 import org.example.paymenttest.repository.ChatMessageRepository;
 import org.example.paymenttest.repository.ChatRoomRepository;
+import org.example.paymenttest.repository.UserRepository;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,60 +24,59 @@ public class ChatMessageService {
     private final ChatMessageRepository chatMessageRepository;
     private final ChatRoomRepository chatRoomRepository;
     private final MongoTemplate mongoTemplate;
+    private final UserRepository userRepository;
 
 
-    public void saveMessage(ChatMessage chatMessage) {
+    public void saveMessage(ChatMessage chatMessage, String role) {
+        Optional<String> senderName = userRepository.findNameByEmail(chatMessage.getSender());
+        String resolvedSenderName = senderName.orElse(chatMessage.getSender());
+
+        chatMessage.setSender(resolvedSenderName);
+
         chatMessageRepository.save(chatMessage);
-
-        ChatRoom room = chatRoomRepository.findById(chatMessage.getRoomId())
-                .orElseGet(()-> {
-                    ChatRoom chatRoom = new ChatRoom(
-                            chatMessage.getRoomId(),
-                            chatMessage.getSender(),
-                            chatMessage.getMessage(),
-                            chatMessage.getTimestamp(),
-                            true
-                    );
-                    return chatRoomRepository.save(chatRoom);
-                });
-
-        room.setLastMessage(chatMessage.getMessage());
-        room.setLastTimestamp(chatMessage.getTimestamp());
-        room.setHasUnread(true);
-        chatRoomRepository.save(room);
-    }
-
-    public List<ChatMessage> getMessagesBySender(String sender){
-        return chatMessageRepository.findBySender(sender);
-    }
-
-    public List<ChatRoomResponse> getChatRooms() {
-        List<ChatMessage> allMessages = chatMessageRepository.findAll();
-        Map<String, ChatRoomResponse> chatRoomMap = new HashMap<>();
-
-        for(ChatMessage message : allMessages){
-            String sender = message.getSender();
-            if(!chatRoomMap.containsKey(sender)){
-                chatRoomMap.put(sender, new ChatRoomResponse(message.getRoomId(), sender, message.getMessage(), message.getTimestamp()));
+        Optional<ChatRoom> chatRoom = chatRoomRepository.findById(chatMessage.getRoomId());
+        if(chatRoom.isEmpty()){
+           if("ROLE_USER".equals(role)){
+                ChatRoom newRoom = new ChatRoom(
+                        chatMessage.getRoomId(),
+                        resolvedSenderName,
+                        chatMessage.getMessage(),
+                        chatMessage.getTimestamp(),
+                        true
+                );
+                System.out.println("👉 roomId: " + newRoom.getRoomId()); // 이게 null이면 문제
+                mongoTemplate.save(newRoom);
+                return;
             } else {
-                ChatRoomResponse room = chatRoomMap.get(sender);
-                room.setRoomId(message.getRoomId());
-                room.setLastMessage(message.getMessage());
-                room.setLastMessageTime(message.getTimestamp());
+                throw new ChatRoomNotFoundException("해당 채팅방이 존재하지 않습니다.");
             }
         }
-        return new ArrayList<>(chatRoomMap.values());
+
+        ChatRoom room = chatRoom.get();
+        room.setLastMessage(chatMessage.getMessage());
+        room.setLastTimestamp(chatMessage.getTimestamp());
+        room.setHasUnread("ROLE_USER".equals(role)); // user가 보낸거면 관리자입장에서는 읽지않은것이므로 true,
+        mongoTemplate.save(room);
     }
 
 
-    public List<ChatMessage> getAllMessages() {
-        return chatMessageRepository.findAll();
+    public List<ChatRoomResponse> getChatRooms() {
+        List<ChatRoom> chatRooms = chatRoomRepository.findAll();
+        List<ChatRoomResponse> chatRoomResponses = new ArrayList<>();
+        for(ChatRoom chatRoom : chatRooms){
+            chatRoomResponses.add(
+                    ChatRoomResponse
+                            .builder().roomId(chatRoom.getRoomId())
+                            .sender(chatRoom.getUserName())
+                            .lastMessage(chatRoom.getLastMessage())
+                            .lastMessageTime(chatRoom.getLastTimestamp())
+                            .build());
+        }
+        return chatRoomResponses;
     }
 
 
-    public List<ChatMessage> getMessagesByRoomId(String roomId) {
-        return chatMessageRepository.findByRoomIdOrderByTimestampAsc(roomId);
-    }
+
 
 
     public boolean existsByRoomId(String roomId) {
@@ -96,4 +93,29 @@ public class ChatMessageService {
             return chatMessageRepository.countByRoomIdAndSenderNotAndUnreadIsTrue(roomId, email);
         }
     }
+
+    public List<ChatMessage> markMessagesAsRead(String roomId, String role, String requester){
+        List<ChatMessage> messages = chatMessageRepository.findByRoomId(roomId);
+        ChatRoom chatRoom = chatRoomRepository.findById(roomId).orElse(null);
+        boolean isChangedRoom = false;
+        for(ChatMessage msg : messages){
+            if("ROLE_ADMIN".equals(role)){
+                if(!"관리자".equalsIgnoreCase(msg.getSender()) && msg.isUnread()){
+                    chatRoom.setHasUnread(false);
+                    msg.setUnread(false);
+                }
+                isChangedRoom = true;
+            } else {
+                if("관리자".equalsIgnoreCase(msg.getSender()) && msg.isUnread()){
+                    msg.setUnread(false);
+                }
+            }
+        }
+        if(isChangedRoom) chatRoomRepository.save(chatRoom);
+        chatMessageRepository.saveAll(messages);
+        return messages;
+
+    }
+
+
 }

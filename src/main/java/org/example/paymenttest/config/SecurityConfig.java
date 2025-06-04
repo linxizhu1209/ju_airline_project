@@ -7,21 +7,23 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, JwtUtil jwtUtil) throws Exception {
        http
                        .authorizeHttpRequests(auth -> auth
                                .requestMatchers("/","/commerce/user/login","/oauth2/**", "/commerce/home", "/chat/**", "/js/**", "/images/**", "/flight/**", "/airport/**", "/payment/**",
-                                       "/order/**", "/login/**", "/auth/**").permitAll()
+                                       "/order/**", "/login/**", "/auth/**", "/ws-chat/**", "/app/**", "/topic/**","/chat.sendMessage","/api/**").permitAll()
                                .requestMatchers("/chat/admin/**").hasRole("ADMIN")
                                .requestMatchers("/commerce/product/**").authenticated()
                                .anyRequest().authenticated()
                        )
+                               .addFilterBefore(new JwtAuthenticationFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
                                .oauth2Login(oauth2 -> oauth2
                                        .defaultSuccessUrl("/commerce/home",true)
                                        .failureUrl("/commerce/home?error=true")
