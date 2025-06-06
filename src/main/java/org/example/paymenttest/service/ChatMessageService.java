@@ -2,8 +2,8 @@ package org.example.paymenttest.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.paymenttest.dto.response.ChatRoomResponse;
-import org.example.paymenttest.entity.ChatMessage;
-import org.example.paymenttest.entity.ChatRoom;
+import org.example.paymenttest.entity.chat.ChatMessage;
+import org.example.paymenttest.entity.chat.ChatRoom;
 import org.example.paymenttest.exception.ChatRoomNotFoundException;
 import org.example.paymenttest.repository.ChatMessageRepository;
 import org.example.paymenttest.repository.ChatRoomRepository;

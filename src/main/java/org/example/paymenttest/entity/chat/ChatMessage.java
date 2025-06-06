@@ -1,14 +1,11 @@
-package org.example.paymenttest.entity;
+package org.example.paymenttest.entity.chat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.DatabindException;
-import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @Document(collection = "chat_messages")

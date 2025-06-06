@@ -2,22 +2,15 @@ package org.example.paymenttest.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.paymenttest.config.JwtUtil;
-import org.example.paymenttest.entity.ChatMessage;
+import org.example.paymenttest.entity.chat.ChatMessage;
 import org.example.paymenttest.service.ChatMessageProducer;
 import org.example.paymenttest.service.ChatMessageService;
-import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 
 import java.nio.file.AccessDeniedException;
-import java.security.Principal;
-import java.util.Collection;
 
 @Controller
 @RequiredArgsConstructor

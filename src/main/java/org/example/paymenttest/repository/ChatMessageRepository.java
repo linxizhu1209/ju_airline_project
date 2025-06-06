@@ -1,7 +1,6 @@
 package org.example.paymenttest.repository;
 
-import org.example.paymenttest.entity.ChatMessage;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.example.paymenttest.entity.chat.ChatMessage;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
