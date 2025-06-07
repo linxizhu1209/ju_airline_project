@@ -2,7 +2,7 @@ package org.example.paymenttest.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.paymenttest.entity.chat.OpenChatRoom;
-import org.example.paymenttest.repository.OpenChatRoomRepository;
+import org.example.paymenttest.repository.chat.OpenChatRoomRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

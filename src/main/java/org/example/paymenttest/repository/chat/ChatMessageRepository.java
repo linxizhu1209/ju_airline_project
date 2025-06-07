@@ -1,4 +1,4 @@
-package org.example.paymenttest.repository;
+package org.example.paymenttest.repository.chat;
 
 import org.example.paymenttest.entity.chat.ChatMessage;
 import org.springframework.data.mongodb.repository.MongoRepository;

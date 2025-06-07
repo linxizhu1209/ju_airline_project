@@ -18,7 +18,7 @@ public class OpenChatRoomController {
 
     private final OpenChatRoomService openChatRoomService;
 
-    
+
     @GetMapping("/grouped")
     public Map<String, List<OpenChatRoom>> getGroupedRooms() {
         return openChatRoomService.getGroupedRooms();
