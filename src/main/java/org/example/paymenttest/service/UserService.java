@@ -60,4 +60,32 @@ public class UserService {
         loginResponse.put("user", user);
         return loginResponse;
     }
+
+    public Map<String, Object> loginOrRegisterUserFromKakao(Map<String, Object> kakaoUser) {
+        Map<String, Object> kakaoAccount = (Map<String, Object>) kakaoUser.get("kakao_account");
+        String email = String.valueOf(kakaoUser.get("id"));
+        String nickname = ((Map<String, Object>) kakaoAccount.get("profile")).get("nickname").toString();
+
+        User user = userRepository.findByEmail(email).orElseGet(() -> {
+            User newUser = new User();
+            newUser.setEmail(email);
+            newUser.setUsername(nickname);
+            newUser.setRole(Role.USER);
+            return userRepository.save(newUser);
+        });
+
+
+        Map<String, Object> userInfo = Map.of(
+                "id", user.getId(),
+                "email", user.getEmail(),
+                "nickname", user.getUsername(),
+                "role", user.getRole().name()
+        );
+        String jwt = jwtUtil.generateToken(user);
+        return Map.of(
+                "jwt", jwt,
+                "user", userInfo
+        );
+
+    }
 }

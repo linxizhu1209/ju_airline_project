@@ -32,7 +32,7 @@ public class OpenChatStompController {
         boolean shouldBroadcase = service.processMessage(message,message.getSender());
 
         if(shouldBroadcase) {
-            messagingTemplate.convertAndSend("/topic/chat.room" + message.getRoomId(), message);
+            messagingTemplate.convertAndSend("/topic/chat.room." + message.getRoomId(), message);
         }
     }
 
