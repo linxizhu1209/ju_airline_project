@@ -71,7 +71,17 @@ dependencies {
 	// qr코드
 	implementation("com.google.zxing:core:3.5.3")
 	implementation("com.google.zxing:javase:3.5.3")
+
+
+	// redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.data:spring-data-redis'
+	implementation 'redis.clients:jedis'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
+
 }
+
+
 
 tasks.named('test') {
 	useJUnitPlatform()

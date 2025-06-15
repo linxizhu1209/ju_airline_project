@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Document(collection = "open_chat_messages")
 @Data
@@ -20,4 +22,7 @@ public class OpenChatMessage {
     private String sender;
     private String content;
     private LocalDateTime sendAt;
+    private Long unreadCount;
+
+    private Set<String> readBy = new HashSet<>(); // 읽은 사람 id 목록
 }

@@ -20,5 +20,5 @@ public class OpenChatRoom {
     private String imageUrl;
     private String lastMessage;
     private LocalDateTime lastTimestamp;
-    private int participantCount;
+    private Long participantCount;
 }

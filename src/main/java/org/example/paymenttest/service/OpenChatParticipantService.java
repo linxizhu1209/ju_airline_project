@@ -20,7 +20,7 @@ public class OpenChatParticipantService {
     }
 
     public void addParticipant(String roomId, String username){
-        OpenChatParticipant participant = new OpenChatParticipant(null, roomId, username, LocalDateTime.now());
+        OpenChatParticipant participant = new OpenChatParticipant(null, roomId, username, LocalDateTime.now(),null);
         repository.save(participant);
     }
 }

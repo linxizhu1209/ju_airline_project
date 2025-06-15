@@ -12,9 +12,25 @@ services:
       MYSQL_PASSWORD: 12341234
     volumes:
       - db_data:/var/lib/mysql
+  redis:
+    image: redis:7.0
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+  redis-commander:
+    image: rediscommander/redis-commander
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8083:8081"
+    depends_on:
+      - redis
   rabbitmq:
     image: rabbitmq:management
     container_name: rabbitmq
+    platform: linux/amd64
     ports:
       - "5672:5672"   # 메시지 브로커 포트
       - "15672:15672" # 관리 UI 포트
@@ -52,3 +68,4 @@ services:
 volumes:
   db_data:
   mongo_data:
+  redis_data:

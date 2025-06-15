@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface OpenChatMessageRepository extends MongoRepository<OpenChatMessage, String> {
     List<OpenChatMessage> findByRoomIdAndSendAtAfter(String roomId, LocalDateTime since);
+
 }

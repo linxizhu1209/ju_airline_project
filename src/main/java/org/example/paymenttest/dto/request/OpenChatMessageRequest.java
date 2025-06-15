@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OpenChatMessageRequest {
+    private String id;
     private String roomId;
     private String sender;
     private String content;

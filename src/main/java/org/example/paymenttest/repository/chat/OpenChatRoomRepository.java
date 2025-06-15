@@ -8,4 +8,5 @@ import java.util.List;
 public interface OpenChatRoomRepository extends MongoRepository<OpenChatRoom, String> {
     List<OpenChatRoom> findByDestination(String destination);
     List<OpenChatRoom> findTop2ByDestinationOrderByLastTimestampDesc(String destination);
+
 }

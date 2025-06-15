@@ -19,5 +19,6 @@ public class OpenChatParticipant {
     private String roomId;
     private String username;
     private LocalDateTime joinedAt;
+    private String lastReadMessageId;
 
 }
