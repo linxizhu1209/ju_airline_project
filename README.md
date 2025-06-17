@@ -15,8 +15,8 @@
 - **QR코드 생성/조회** (탑승권 확인 용도)
 
 ### 💬 실시간 채팅
-- **1:1 고객센터 채팅** (RabbitMQ 기반)
-- **오픈 채팅방 기능** (복수 사용자 간 대화)
+- **1:1 고객센터 채팅** 
+- **오픈 채팅방 기능** (stomp 기반 다대다 메시지브로드캐스트, [서버확장성 고려한 RabbitMQ 사용](https://velog.io/@juju129/rabbitMq-%EC%84%9C%EB%B2%84-%ED%99%95%EC%9E%A5%EC%84%B1%EC%9D%84-%EA%B3%A0%EB%A0%A4%ED%95%B4-rabbitMq-%EB%8F%84%EC%9E%85%ED%95%B4%EB%B3%B4%EA%B8%B0))
 - 실시간 메시지 수신/읽음 여부 처리
 - 관리자 채팅방 목록/상세 분리 UI
 
@@ -62,3 +62,5 @@ todo
 
 - Lim Heeju
 - 📧 dlahj1209@naver.com
+- [개발블로그1](https://velog.io/@juju129/posts)
+- [개발블로그2](https://blog.naver.com/dlahj1209)
