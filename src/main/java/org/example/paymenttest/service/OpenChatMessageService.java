@@ -44,7 +44,12 @@ public class OpenChatMessageService {
         if("TALK".equals(message.getType())){
             // 해당 room의 참가자수 - 1
             OpenChatRoom room = openChatRoomRepository.findById(message.getRoomId()).orElseThrow(RuntimeException::new);
+            Long participantCount = room.getParticipantCount();
             Long unreadCount = room.getParticipantCount()-1;
+
+            if(participantCount == 0){
+                unreadCount = 0l;
+            }
             OpenChatMessage openChatMessage = new OpenChatMessage(
                     null,
                     message.getRoomId(),
