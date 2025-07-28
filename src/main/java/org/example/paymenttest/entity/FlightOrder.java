@@ -3,6 +3,7 @@ package org.example.paymenttest.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-//@Table(name="flight_order")
+@Table(name="flight_order")
 public class FlightOrder extends BaseEntity {
 
     @Id
@@ -22,8 +23,8 @@ public class FlightOrder extends BaseEntity {
     private String tossOrderId;
 
     @ManyToOne
-    @JoinColumn(name = "flightScheduledId", nullable = false)
-    private FlightSchedule flightSchedule;
+    @JoinColumn(name="user_id", nullable = false)
+    private User user;
 
     @Column(nullable = false)
     private int quantity;
@@ -35,7 +36,24 @@ public class FlightOrder extends BaseEntity {
     @Column(nullable = false)
     private OrderStatus orderStatus = OrderStatus.PENDING; // 기본값을 대기상태로
 
-    @ManyToOne
-    @JoinColumn(name="user_id", nullable = false)
-    private User user;
+    @Column(nullable = false)
+    private String airlineName;
+
+    @Column
+    private String airlineImageUrl; // 선택사항
+
+    @Column(nullable = false, length = 10)
+    private String departureAirportCode;
+
+    @Column(nullable = false, length = 10)
+    private String arrivalAirportCode;
+
+    @Column(nullable = false)
+    private LocalDateTime departureDateTime;
+
+    @Column(nullable = false)
+    private LocalDateTime arrivalDateTime;
+
+    @Column(nullable = true)
+    private String flightNumber;
 }

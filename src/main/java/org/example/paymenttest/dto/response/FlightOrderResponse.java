@@ -6,32 +6,29 @@ import org.example.paymenttest.entity.FlightSchedule;
 import org.example.paymenttest.entity.OrderStatus;
 import org.example.paymenttest.entity.User;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 public class FlightOrderResponse {
     private Long flightOrderId;
-
     private String tossOrderId;
 
+    private String airlineName;
+    private String airlineImageUrl;
+
+    private String departureAirportCode;
+    private String arrivalAirportCode;
+
+    private LocalDateTime departureDateTime;
+    private LocalDateTime arrivalDateTime;
+
+    private String flightNumber;
+
     private int quantity;
-
     private double totalPrice;
-
     private OrderStatus orderStatus;
 
-    private User user;
-
-    private String flightScheduleId;
-
-    private String departureAirport;
-
-    private String arrivalAirport;
-
-    private String departureTime;
-
-    private String arrivalTime;
-
-    private String airlineName;
-
-    private String flightId;
+    private LocalDateTime bookingDate; // createdAt
 }

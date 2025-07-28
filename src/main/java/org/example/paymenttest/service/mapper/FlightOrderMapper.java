@@ -6,19 +6,16 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface FlightOrderMapper {
 
     FlightOrderMapper INSTANCE = Mappers.getMapper(FlightOrderMapper.class);
 
-    @Mapping(target = "flightScheduleId", source = "flightSchedule.scheduleId")
-    @Mapping(target = "airlineName", source = "flightSchedule.flight.airline.name")
-    @Mapping(target = "departureAirport", source = "flightSchedule.flight.departureAirport.name")
-    @Mapping(target = "arrivalAirport", source = "flightSchedule.flight.arrivalAirport.name")
-    @Mapping(target="departureTime", source = "flightSchedule.departureTime")
-    @Mapping(target="arrivalTime", source = "flightSchedule.arrivalTime")
-    @Mapping(target = "flightId", source = "flightSchedule.flight.flightId")
-    @Mapping(target = "user", source = "user")
+    @Mapping(target = "bookingDate", source = "createdAt")
     FlightOrderResponse toFlightOrderResponse(FlightOrder flightOrder);
+
+    List<FlightOrderResponse> toFlightOrderResponses(List<FlightOrder> flightOrders);
 
 }

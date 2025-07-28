@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface FlightOrderRepository extends JpaRepository<FlightOrder, Long> {
 
-    @Query("SELECT fo FROM FlightOrder fo JOIN FETCH fo.flightSchedule WHERE fo.user.id = :userId")
+    @Query("SELECT fo FROM FlightOrder fo WHERE fo.user.id = :userId")
     List<FlightOrder> findFlightOrderListByUserId(@Param("userId") Long userId);
 }

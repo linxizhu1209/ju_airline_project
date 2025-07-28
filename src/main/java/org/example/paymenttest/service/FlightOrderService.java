@@ -33,16 +33,21 @@ public class FlightOrderService {
     }
 
     public ResponseEntity<Map<String, Object>> saveFlightOrder(FlightOrderRequest flightOrderRequest) {
-        FlightSchedule flightSchedule = flightScheduleRepository.findById(flightOrderRequest.getFlightScheduleId()).orElse(null);
         User user = userRepository.findByEmail(flightOrderRequest.getUserEmail()).orElse(null);
         FlightOrder flightOrder
                 = FlightOrder.builder()
                 .tossOrderId(flightOrderRequest.getTossOrderId())
-                .flightSchedule(flightSchedule)
                 .totalPrice(flightOrderRequest.getTotalPrice())
                 .quantity(flightOrderRequest.getQuantity())
                 .orderStatus(OrderStatus.PENDING)
                 .user(user)
+                .airlineName(flightOrderRequest.getAirlineName())
+                .airlineImageUrl(flightOrderRequest.getAirlineImageUrl())
+                .departureAirportCode(flightOrderRequest.getDepartureAirportCode())
+                .arrivalAirportCode(flightOrderRequest.getArrivalAirportCode())
+                .departureDateTime(flightOrderRequest.getDepartureDateTime())
+                .arrivalDateTime(flightOrderRequest.getArrivalDateTime())
+                .flightNumber(flightOrderRequest.getFlightNumber())
                 .build();
 
         FlightOrder fo = flightOrderRepository.save(flightOrder);
