@@ -8,6 +8,7 @@ import org.example.paymenttest.entity.User;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -31,4 +32,5 @@ public class FlightOrderResponse {
     private OrderStatus orderStatus;
 
     private LocalDateTime bookingDate; // createdAt
+    private Map<String, Object> rawFlightOffer;
 }

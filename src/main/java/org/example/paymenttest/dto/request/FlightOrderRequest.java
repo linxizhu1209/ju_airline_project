@@ -19,6 +19,10 @@ public class FlightOrderRequest {
     @NotNull
     private double totalPrice;
 
+    @NotNull
+    private double usdPrice;
+
+
     private String airlineName;
     private String airlineImageUrl;
 
@@ -33,10 +37,12 @@ public class FlightOrderRequest {
 
     @NotNull
     private LocalDateTime arrivalDateTime;
-    
+
     private String flightNumber;
 
     @NotNull
     private String userEmail;
+
+    private String rawFlightOffer;
 
 }

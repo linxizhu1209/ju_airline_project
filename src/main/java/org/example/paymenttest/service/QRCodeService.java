@@ -66,7 +66,7 @@ public class QRCodeService {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> qrData = objectMapper.readValue(jsonString, Map.class);
 
-        String reservationId = (String) qrData.get("reservationId");
+        String reservationId = (String) qrData.get("text");
         Number expNumber = (Number) qrData.get("exp");
         String signature = (String) qrData.get("signature");
 

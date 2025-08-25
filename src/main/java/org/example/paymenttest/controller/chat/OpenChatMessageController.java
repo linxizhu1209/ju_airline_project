@@ -29,6 +29,19 @@ public class OpenChatMessageController {
         return ResponseEntity.of(Optional.ofNullable(messages));
     }
 
+    @GetMapping("/{roomId}/messages/window")
+    public ResponseEntity<List<Map<String,Object>>> getMessagesWindow(
+            @PathVariable String roomId,
+            @RequestParam("lastMessageId") String centerMessageId,
+            @RequestParam("prev") int prev,
+            @RequestParam("next") int next,
+            @RequestParam("username") String username
+    ){
+        List<Map<String, Object>> messages = service.getMessagesWindow(roomId, centerMessageId, prev, next, username);
+        return ResponseEntity.ok(messages);
+    }
+
+
     @PostMapping("/read")
     public ResponseEntity<?> markAsRead(@RequestBody ReadMessageRequest request){
         service.markMessageAsRead(

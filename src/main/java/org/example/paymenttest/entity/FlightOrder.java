@@ -32,6 +32,10 @@ public class FlightOrder extends BaseEntity {
     @Column(nullable = false)
     private double totalPrice;
 
+    @Column(nullable = false)
+    private double usdPrice;
+
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private OrderStatus orderStatus = OrderStatus.PENDING; // 기본값을 대기상태로
@@ -56,4 +60,8 @@ public class FlightOrder extends BaseEntity {
 
     @Column(nullable = true)
     private String flightNumber;
+
+    @Lob
+    @Column(columnDefinition = "TEXT")
+    private String rawFLightOffer;
 }

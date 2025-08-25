@@ -10,6 +10,8 @@ import org.example.paymenttest.repository.chat.OpenChatMessageRepository;
 import org.example.paymenttest.repository.chat.OpenChatParticipantRepository;
 import org.example.paymenttest.repository.chat.OpenChatRoomRepository;
 import org.example.paymenttest.util.RedisKeyUtil;
+import org.springframework.cglib.core.Local;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -183,4 +185,57 @@ public class OpenChatMessageService {
     }
 
 
+    public List<Map<String, Object>> getMessagesWindow(String roomId, String centerMessageId, int prev, int next, String username) {
+        Optional<OpenChatMessage> centerOpt = openChatMessageRepository.findById(centerMessageId);
+        if(centerOpt.isEmpty()) return Collections.emptyList();
+        OpenChatMessage center = centerOpt.get();
+        LocalDateTime centerTime = center.getSendAt();
+        List<OpenChatMessage> prevMessages = new ArrayList<>();
+        List<OpenChatMessage> nextMessages = new ArrayList<>();
+
+        if(prev > 0) {
+            prevMessages = openChatMessageRepository.findTopByRoomIdAndSendAtLessThanOrderBySendAtDesc(roomId, centerTime, PageRequest.of(0, prev));
+        }
+        Collections.reverse(prevMessages);
+
+        if(next > 0) {
+            nextMessages = openChatMessageRepository.findTopByRoomIdAndSendAtGreaterThanEqualOrderBySendAtAsc(roomId, centerTime, PageRequest.of(0, next));
+        }
+        List<OpenChatMessage> all = new ArrayList<>();
+        all.addAll(prevMessages);
+        all.addAll(nextMessages);
+
+        List<Map<String, Object>> result = new ArrayList<>();
+        String lastReadKey = RedisKeyUtil.getLastReadMessageKey(roomId, username);
+
+        for(OpenChatMessage msg : all){
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", msg.getId());
+            map.put("roomId", msg.getRoomId());
+            map.put("sender", msg.getSender());
+            map.put("content", msg.getContent());
+            map.put("sendAt", msg.getSendAt());
+            map.put("type", "TALK");
+
+            String redisKey = RedisKeyUtil.getUnreadUserSetKey(roomId, msg.getId());
+            Boolean isMember = redisTemplate.opsForSet().isMember(redisKey, username);
+            if (Boolean.TRUE.equals(isMember)) {
+                redisTemplate.opsForSet().remove(redisKey, username);
+
+                // 마지막 읽은 메시지 갱신
+                stringRedisTemplate.opsForValue().set(lastReadKey, msg.getId());
+            }
+
+            Long unreadCount = redisTemplate.opsForSet().size(redisKey);
+            if (unreadCount == null) {
+                unreadCount = msg.getUnreadCount();  // fallback
+            }
+            map.put("unreadCount", unreadCount);
+
+            result.add(map);
+        }
+
+       return result;
+
+    }
 }

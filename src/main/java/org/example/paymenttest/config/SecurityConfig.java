@@ -18,7 +18,7 @@ public class SecurityConfig {
        http
                        .authorizeHttpRequests(auth -> auth
                                .requestMatchers("/","/commerce/user/login","/oauth2/**", "/commerce/home", "/chat/**", "/js/**", "/images/**", "/flight/**", "/airport/**", "/payment/**",
-                                       "/order/**", "/login/**", "/auth/**", "/ws-chat/**", "/app/**", "/topic/**","/chat.sendMessage","/api/**").permitAll()
+                                       "/order/**", "/login/**", "/auth/**", "/ws-chat/**", "/app/**", "/topic/**","/chat.sendMessage","/api/**", "/open-chat/**").permitAll()
                                .requestMatchers("/chat/admin/**").hasRole("ADMIN")
                                .requestMatchers("/commerce/product/**").authenticated()
                                .anyRequest().authenticated()

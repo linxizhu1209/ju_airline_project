@@ -38,6 +38,7 @@ public class FlightOrderService {
                 = FlightOrder.builder()
                 .tossOrderId(flightOrderRequest.getTossOrderId())
                 .totalPrice(flightOrderRequest.getTotalPrice())
+                .usdPrice(flightOrderRequest.getUsdPrice())
                 .quantity(flightOrderRequest.getQuantity())
                 .orderStatus(OrderStatus.PENDING)
                 .user(user)
@@ -48,6 +49,7 @@ public class FlightOrderService {
                 .departureDateTime(flightOrderRequest.getDepartureDateTime())
                 .arrivalDateTime(flightOrderRequest.getArrivalDateTime())
                 .flightNumber(flightOrderRequest.getFlightNumber())
+                .rawFLightOffer(flightOrderRequest.getRawFlightOffer())
                 .build();
 
         FlightOrder fo = flightOrderRepository.save(flightOrder);
